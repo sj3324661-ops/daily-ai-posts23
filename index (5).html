@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily AI Posts</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#080b12;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    text-align:center;
+    padding:22px 15px;
+    background:#111827;
+}
+
+header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:15px;
+}
+
+.post{
+    background:#111827;
+    border-radius:18px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.title{
+    padding:18px;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.post-image{
+    width:100%;
+    display:block;
+}
+
+.prompt-box{
+    padding:16px;
+}
+
+.prompt{
+    background:#080b12;
+    border-radius:12px;
+    padding:14px;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.copy-btn,
+.create-btn{
+    width:100%;
+    margin-top:12px;
+    padding:15px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.copy-btn{
+    border:0;
+    background:#263244;
+    color:white;
+    cursor:pointer;
+}
+
+.create-btn{
+    border:0;
+    background:#4285f4;
+    color:white;
+    cursor:pointer;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    font-size:18px;
+}
+
+.error{
+    background:#3b1111;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>✨ Daily AI Posts</h1>
+</header>
+
+<div class="container" id="postsContainer">
+
+    <div class="loading">
+        ⏳ Posts load ho rahe hain...
+    </div>
+
+</div>
+
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD5Fr_04TVEj5CqEiisM_-ThMQEJ9R1LM4",
+    authDomain: "daily-ai-posts.firebaseapp.com",
+    projectId: "daily-ai-posts",
+    storageBucket: "daily-ai-posts.firebasestorage.app",
+    messagingSenderId: "223242023213",
+    appId: "1:223242023213:web:e8e67fd7e587fe763323a4",
+    measurementId: "G-7K1WFGR67Y"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+
+/* Posts Firebase se load karna */
+
+db.collection("Posts").get()
+.then(function(snapshot){
+
+    const container =
+        document.getElementById("postsContainer");
+
+    container.innerHTML = "";
+
+    if(snapshot.empty){
+
+        container.innerHTML = `
+            <div class="loading">
+                📭 Abhi koi post nahi hai.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    snapshot.forEach(function(doc){
+
+        const data = doc.data();
+
+        const title =
+            data.title || "Untitled Post";
+
+        const prompt =
+            data.prompt || "Prompt available nahi hai.";
+
+        const image =
+            data.image || "";
+
+
+        const post = document.createElement("div");
+
+        post.className = "post";
+
+
+        post.innerHTML = `
+
+            <div class="title">
+                ${escapeHTML(title)}
+            </div>
+
+            ${
+                image
+                ?
+                `
+                <img
+                    class="post-image"
+                    src="${escapeHTML(image)}"
+                    alt="AI Post"
+                    onerror="this.style.display='none'"
+                >
+                `
+                :
+                ""
+            }
+
+            <div class="prompt-box">
+
+                <div class="prompt">
+                    ${escapeHTML(prompt)}
+                </div>
+
+                <button
+                    class="copy-btn"
+                    onclick="copyPrompt(this)">
+                    📋 Copy Prompt
+                </button>
+
+                <button
+                    class="create-btn"
+                    onclick="openGemini()">
+                    ✨ Create with Gemini
+                </button>
+
+            </div>
+        `;
+
+
+        container.appendChild(post);
+
+    });
+
+})
+.catch(function(error){
+
+    console.error("Firebase Error:", error);
+
+    document.getElementById("postsContainer").innerHTML = `
+
+        <div class="error">
+            ❌ Posts load nahi ho paaye.
+            <br><br>
+            Firebase connection ya Firestore Rules check karein.
+        </div>
+
+    `;
+
+});
+
+
+/* HTML ko safe rakhne ke liye */
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* Copy Prompt */
+
+function copyPrompt(button){
+
+    const promptBox =
+        button.parentElement.querySelector(".prompt");
+
+    const text =
+        promptBox.innerText.trim();
+
+
+    navigator.clipboard.writeText(text)
+
+    .then(function(){
+
+        alert("✅ Prompt copied!");
+
+    })
+
+    .catch(function(){
+
+        alert("❌ Prompt copy nahi hua.");
+
+    });
+
+}
+
+
+/* Gemini */
+
+function openGemini(){
+
+    window.location.href =
+        "https://gemini.google.com/app?hl=en-IN";
+
+}
+
+</script>
+
+</body>
+</html>
