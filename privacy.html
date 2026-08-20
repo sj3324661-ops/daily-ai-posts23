@@ -20,23 +20,39 @@ body{
 
 header{
     background:#111827;
-    padding:20px;
+    padding:22px 15px;
     text-align:center;
+    border-bottom:1px solid #263244;
 }
 
 header h1{
     margin:0;
+    font-size:28px;
 }
 
 nav{
-    text-align:center;
-    padding:15px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:14px 10px;
+    background:#0d1420;
 }
 
 nav a{
-    color:#60a5fa;
+    color:#dbeafe;
+    background:#182235;
+    border:1px solid #2d3b52;
     text-decoration:none;
-    margin:0 8px;
+    padding:9px 13px;
+    border-radius:20px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+nav a.active{
+    background:#4285f4;
+    border-color:#4285f4;
 }
 
 .container{
@@ -49,10 +65,16 @@ nav a{
     background:#111827;
     padding:25px;
     border-radius:18px;
+    border:1px solid #202b3d;
 }
 
 h2{
     color:#60a5fa;
+    margin-top:25px;
+}
+
+h2:first-child{
+    margin-top:0;
 }
 
 p,li{
@@ -60,10 +82,30 @@ p,li{
     line-height:1.7;
 }
 
+a{
+    color:#60a5fa;
+}
+
+.info{
+    background:#080b12;
+    border:1px solid #202b3d;
+    padding:15px;
+    border-radius:12px;
+    margin:15px 0;
+}
+
 footer{
     text-align:center;
-    padding:25px;
+    padding:28px 15px;
     color:#9ca3af;
+    background:#111827;
+    margin-top:25px;
+    border-top:1px solid #263244;
+}
+
+footer a{
+    text-decoration:none;
+    margin:0 6px;
 }
 </style>
 </head>
@@ -74,12 +116,31 @@ footer{
     <h1>🔒 Privacy Policy</h1>
 </header>
 
+
 <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="privacy.html">Privacy</a>
+
+    <a href="index.html">
+        🏠 Home
+    </a>
+
+    <a href="about.html">
+        ℹ️ About
+    </a>
+
+    <a href="contact.html">
+        📩 Contact
+    </a>
+
+    <a href="privacy.html" class="active">
+        🔒 Privacy
+    </a>
+
+    <a href="terms.html">
+        📄 Terms
+    </a>
+
 </nav>
+
 
 <div class="container">
 
@@ -89,62 +150,145 @@ footer{
 
 <p>
 Daily AI Posts आपके privacy का सम्मान करता है।
-यह Privacy Policy बताती है कि website का उपयोग
-करते समय information को किस प्रकार handle किया जाता है।
+यह Privacy Policy बताती है कि website का उपयोग करते समय
+information को किस प्रकार handle किया जाता है।
 </p>
+
 
 <h2>1. Information We Collect</h2>
 
 <p>
-हम सामान्य visitors से व्यक्तिगत जानकारी मांगने का
-उद्देश्य नहीं रखते। Website पर दिखाई जाने वाली Posts
-public content होती हैं।
+Daily AI Posts सामान्य visitors से अनावश्यक personal
+information मांगने का उद्देश्य नहीं रखता।
+Website पर उपलब्ध posts और prompts public content के रूप
+में दिखाई जा सकते हैं।
 </p>
+
+<p>
+यदि कोई visitor Contact page के माध्यम से email भेजता है,
+तो उस email में दी गई जानकारी का उपयोग केवल उस communication
+का जवाब देने के लिए किया जा सकता है।
+</p>
+
 
 <h2>2. Cookies</h2>
 
 <p>
-भविष्य में website पर analytics या advertising services
-का उपयोग किया जा सकता है। ऐसी services cookies या
-similar technologies का उपयोग कर सकती हैं।
+Website भविष्य में cookies या similar technologies का उपयोग
+कर सकती है। Cookies website functionality, preferences,
+analytics या advertising से संबंधित हो सकती हैं।
 </p>
 
-<h2>3. Third-Party Services</h2>
+
+<h2>3. Analytics और Advertising</h2>
 
 <p>
-Website कुछ third-party services जैसे image hosting,
-Firebase या अन्य web services का उपयोग कर सकती है।
-इन services की अपनी privacy policies और terms हो सकती हैं।
+भविष्य में Daily AI Posts analytics या advertising services
+का उपयोग कर सकता है। ऐसी third-party services अपनी
+technologies के माध्यम से information collect कर सकती हैं।
+उनकी अपनी privacy policies लागू हो सकती हैं।
 </p>
 
-<h2>4. Children's Privacy</h2>
+
+<h2>4. Firebase</h2>
 
 <p>
-हम जानबूझकर बच्चों से व्यक्तिगत जानकारी इकट्ठा करने
-का उद्देश्य नहीं रखते।
+Website posts को store और display करने के लिए Firebase
+Firestore जैसी services का उपयोग करती है।
+Firebase द्वारा information के processing के अपने नियम और
+privacy practices हो सकते हैं।
 </p>
 
-<h2>5. Changes</h2>
+
+<h2>5. Cloudinary</h2>
+
+<p>
+Website पर images को store और display करने के लिए
+Cloudinary जैसी third-party image hosting service का उपयोग
+किया जा सकता है। ऐसी service की अपनी privacy policy और
+terms हो सकती हैं।
+</p>
+
+
+<h2>6. Third-Party Links</h2>
+
+<p>
+Website पर कुछ external websites या services के links हो सकते हैं।
+उन websites की privacy policies और terms अलग हो सकती हैं।
+किसी external website पर जाने से पहले उसकी policies पढ़ने की
+सलाह दी जाती है।
+</p>
+
+
+<h2>7. Children's Privacy</h2>
+
+<p>
+हम जानबूझकर बच्चों से unnecessary personal information
+collect करने का उद्देश्य नहीं रखते। यदि किसी parent या
+guardian को लगे कि किसी बच्चे ने personal information share
+की है, तो वे हमसे Contact page के माध्यम से संपर्क कर सकते हैं।
+</p>
+
+
+<h2>8. Data Security</h2>
+
+<p>
+हम website और उसके services को सुरक्षित रखने के लिए उचित
+technical measures का उपयोग करने का प्रयास करते हैं।
+हालाँकि internet पर कोई भी system पूर्ण रूप से सुरक्षित
+होने की guarantee नहीं दी जा सकती।
+</p>
+
+
+<h2>9. Changes to This Policy</h2>
 
 <p>
 इस Privacy Policy में समय-समय पर बदलाव किए जा सकते हैं।
-नए बदलाव इसी page पर प्रकाशित किए जाएंगे।
+यदि कोई महत्वपूर्ण बदलाव किया जाता है, तो updated version
+इसी page पर प्रकाशित किया जाएगा।
 </p>
 
-<h2>6. Contact</h2>
+
+<h2>10. Contact Us</h2>
+
+<div class="info">
 
 <p>
-Privacy से संबंधित किसी सवाल के लिए हमारी
-<a href="contact.html">Contact</a> page पर जाएँ।
+Privacy Policy से संबंधित किसी सवाल के लिए
+हमसे Contact page के माध्यम से संपर्क कर सकते हैं।
+</p>
+
+<p>
+📧
+<a href="mailto:sj3324661@gmail.com">
+    sj3324661@gmail.com
+</a>
+</p>
+
+</div>
+
+
+<p>
+<strong>Last Updated:</strong> August 2026
 </p>
 
 </div>
 
 </div>
 
+
 <footer>
+
 © 2026 Daily AI Posts
+
+<br><br>
+
+<a href="index.html">Home</a> |
+<a href="about.html">About</a> |
+<a href="contact.html">Contact</a> |
+<a href="terms.html">Terms</a>
+
 </footer>
 
 </body>
-</html>
+    </html>
