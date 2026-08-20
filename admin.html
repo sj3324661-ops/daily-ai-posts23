@@ -52,6 +52,13 @@ textarea{
     resize:vertical;
 }
 
+.hint{
+    margin-top:15px;
+    color:#9ca3af;
+    font-size:14px;
+    line-height:1.5;
+}
+
 button{
     width:100%;
     padding:14px;
@@ -65,12 +72,25 @@ button{
     cursor:pointer;
 }
 
+button:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+}
+
 .logout{
     background:#444;
 }
 
 .delete{
     background:#d93025;
+}
+
+.edit{
+    background:#16a34a;
+}
+
+.cancel{
+    background:#444;
 }
 
 .message{
@@ -89,8 +109,10 @@ button{
 }
 
 .admin-post{
+    position:relative;
     background:#080b12;
     padding:15px;
+    padding-top:45px;
     border-radius:12px;
     margin-top:15px;
 }
@@ -103,7 +125,77 @@ button{
     margin-top:10px;
 }
 
+.admin-post p{
+    color:#d1d5db;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+/* 3 DOT */
+
+.menu-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:42px;
+    height:42px;
+    padding:0;
+    margin:0;
+    background:#263244;
+    border:1px solid #3b4b63;
+    border-radius:50%;
+    font-size:24px;
+    line-height:42px;
+}
+
+.menu{
+    position:absolute;
+    top:55px;
+    right:10px;
+    width:170px;
+    background:#182235;
+    border:1px solid #3b4b63;
+    border-radius:12px;
+    padding:6px;
+    z-index:20;
+    display:none;
+}
+
+.menu.show{
+    display:block;
+}
+
+.menu button{
+    width:100%;
+    margin:0;
+    margin-bottom:5px;
+    padding:11px;
+    font-size:14px;
+    border-radius:8px;
+}
+
+.menu button:last-child{
+    margin-bottom:0;
+}
+
+.menu-edit{
+    background:#16a34a;
+}
+
+.menu-delete{
+    background:#d93025;
+}
+
 #adminPanel{
+    display:none;
+}
+
+#postsBox,
+#logoutBox{
+    display:none;
+}
+
+#editBox{
     display:none;
 }
 </style>
@@ -140,7 +232,7 @@ button{
 </div>
 
 
-<!-- ADMIN -->
+<!-- ADMIN PANEL -->
 
 <div class="box" id="adminPanel">
 
@@ -173,14 +265,80 @@ button{
 
 <textarea
     id="postPrompt"
-    placeholder="यहाँ Prompt लिखें..."
+    placeholder="✨ यहाँ पूरा AI Prompt लिखें..."
 ></textarea>
+
+<textarea
+    id="postHowToUse"
+    placeholder="💡 Prompt कैसे इस्तेमाल करें?&#10;&#10;उदाहरण: इस prompt को AI image generator में paste करें। अपनी reference photo जोड़ें और जरूरत के अनुसार बदलाव करें।"
+></textarea>
+
+<div class="hint">
+    💡 यहाँ 2–4 लाइन में बताएं कि visitor इस prompt का इस्तेमाल कैसे कर सकता है।
+</div>
 
 <button onclick="addPost()" id="addButton">
     ➕ Add Post
 </button>
 
 <div class="message" id="postMessage"></div>
+
+</div>
+
+
+<!-- EDIT PANEL -->
+
+<div class="box" id="editBox">
+
+<h2>✏️ Edit Post</h2>
+
+<input
+    type="text"
+    id="editTitle"
+    placeholder="Post Title"
+>
+
+<input
+    type="file"
+    id="editImage"
+    accept="image/*"
+    onchange="previewEditImage(event)"
+>
+
+<img
+    id="editImagePreview"
+    class="preview"
+    alt="New Preview"
+>
+
+<textarea
+    id="editPrompt"
+    placeholder="✨ AI Prompt"
+></textarea>
+
+<textarea
+    id="editHowToUse"
+    placeholder="💡 Prompt कैसे इस्तेमाल करें?"
+></textarea>
+
+<div class="hint">
+    📌 नई फोटो नहीं चुनोगे तो पुरानी फोटो बनी रहेगी।
+</div>
+
+<button onclick="saveEdit()" id="saveEditButton">
+    💾 Save Changes
+</button>
+
+<button
+    class="cancel"
+    onclick="cancelEdit()">
+    ❌ Cancel
+</button>
+
+<div
+    class="message"
+    id="editMessage">
+</div>
 
 </div>
 
@@ -198,9 +356,13 @@ button{
 </div>
 
 
-<div class="box" id="logoutBox" style="display:none;">
+<!-- LOGOUT -->
 
-<button class="logout" onclick="logout()">
+<div class="box" id="logoutBox">
+
+<button
+    class="logout"
+    onclick="logout()">
     Logout
 </button>
 
@@ -209,7 +371,7 @@ button{
 </div>
 
 
-<!-- Firebase -->
+<!-- FIREBASE -->
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
@@ -222,35 +384,48 @@ button{
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyD5Fr_04TVEj5CqEiisM_-ThMQEJ9R1LM4",
+    apiKey:
+        "AIzaSyD5Fr_04TVEj5CqEiisM_-ThMQEJ9R1LM4",
 
-    authDomain: "daily-ai-posts.firebaseapp.com",
+    authDomain:
+        "daily-ai-posts.firebaseapp.com",
 
-    projectId: "daily-ai-posts",
+    projectId:
+        "daily-ai-posts",
 
-    storageBucket: "daily-ai-posts.firebasestorage.app",
+    storageBucket:
+        "daily-ai-posts.firebasestorage.app",
 
-    messagingSenderId: "223242023213",
+    messagingSenderId:
+        "223242023213",
 
-    appId: "1:223242023213:web:e8e67fd7e587fe763323a4",
+    appId:
+        "1:223242023213:web:e8e67fd7e587fe763323a4",
 
-    measurementId: "G-7K1WFGR67Y"
+    measurementId:
+        "G-7K1WFGR67Y"
 
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
+const auth =
+    firebase.auth();
 
-const db = firebase.firestore();
+const db =
+    firebase.firestore();
 
 
 /* CLOUDINARY */
 
-const CLOUD_NAME = "akgmcts8";
+const CLOUD_NAME =
+    "akgmcts8";
 
-const UPLOAD_PRESET = "daily_ai_posts";
+const UPLOAD_PRESET =
+    "daily_ai_posts";
+
+
+let editingPostId = null;
 
 
 /* LOGIN */
@@ -258,36 +433,45 @@ const UPLOAD_PRESET = "daily_ai_posts";
 function login(){
 
     const email =
-        document.getElementById("email").value.trim();
+        document.getElementById("email")
+        .value.trim();
 
     const password =
-        document.getElementById("password").value;
-
+        document.getElementById("password")
+        .value;
 
     if(!email || !password){
 
-        document.getElementById("loginMessage").innerText =
+        document.getElementById(
+            "loginMessage"
+        ).innerText =
             "⚠️ Email और Password डालो।";
 
         return;
     }
 
-
-    auth.signInWithEmailAndPassword(email,password)
+    auth.signInWithEmailAndPassword(
+        email,
+        password
+    )
 
     .then(function(){
 
-        document.getElementById("loginBox").style.display =
-            "none";
+        document.getElementById(
+            "loginBox"
+        ).style.display = "none";
 
-        document.getElementById("adminPanel").style.display =
-            "block";
+        document.getElementById(
+            "adminPanel"
+        ).style.display = "block";
 
-        document.getElementById("postsBox").style.display =
-            "block";
+        document.getElementById(
+            "postsBox"
+        ).style.display = "block";
 
-        document.getElementById("logoutBox").style.display =
-            "block";
+        document.getElementById(
+            "logoutBox"
+        ).style.display = "block";
 
         loadPosts();
 
@@ -295,7 +479,9 @@ function login(){
 
     .catch(function(error){
 
-        document.getElementById("loginMessage").innerText =
+        document.getElementById(
+            "loginMessage"
+        ).innerText =
             "❌ Login नहीं हुआ।";
 
         console.log(error);
@@ -313,29 +499,31 @@ function previewImage(event){
         event.target.files[0];
 
     const preview =
-        document.getElementById("imagePreview");
-
+        document.getElementById(
+            "imagePreview"
+        );
 
     if(!file){
 
-        preview.style.display = "none";
+        preview.style.display =
+            "none";
 
         return;
     }
 
-
     const reader =
         new FileReader();
 
+    reader.onload =
+        function(e){
 
-    reader.onload = function(e){
+            preview.src =
+                e.target.result;
 
-        preview.src = e.target.result;
+            preview.style.display =
+                "block";
 
-        preview.style.display = "block";
-
-    };
-
+        };
 
     reader.readAsDataURL(file);
 
@@ -347,115 +535,94 @@ function previewImage(event){
 async function addPost(){
 
     const title =
-        document.getElementById("postTitle").value.trim();
+        document.getElementById(
+            "postTitle"
+        ).value.trim();
 
     const prompt =
-        document.getElementById("postPrompt").value.trim();
+        document.getElementById(
+            "postPrompt"
+        ).value.trim();
+
+    const howToUse =
+        document.getElementById(
+            "postHowToUse"
+        ).value.trim();
 
     const file =
-        document.getElementById("postImage").files[0];
+        document.getElementById(
+            "postImage"
+        ).files[0];
 
     const message =
-        document.getElementById("postMessage");
+        document.getElementById(
+            "postMessage"
+        );
 
     const button =
-        document.getElementById("addButton");
-
+        document.getElementById(
+            "addButton"
+        );
 
     if(!title || !prompt || !file){
 
         message.innerText =
-            "⚠️ Title, Photo और Prompt तीनों जरूरी हैं।";
+            "⚠️ Title, Photo और Prompt जरूरी हैं।";
 
         return;
     }
-
 
     button.disabled = true;
 
     button.innerText =
         "⏳ Photo upload हो रही है...";
 
-
     try{
 
-        /* CLOUDINARY UPLOAD */
-
-        const formData =
-            new FormData();
-
-        formData.append(
-            "file",
-            file
-        );
-
-        formData.append(
-            "upload_preset",
-            UPLOAD_PRESET
-        );
-
-
-        const response =
-            await fetch(
-                `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-                {
-                    method:"POST",
-                    body:formData
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error?.message ||
-                "Cloudinary upload failed"
-            );
-
-        }
-
-
         const imageURL =
-            result.secure_url;
-
+            await uploadImage(file);
 
         button.innerText =
             "⏳ Post save हो रहा है...";
 
-
-        /* FIRESTORE */
-
-        await db.collection("Posts").add({
+        await db
+        .collection("Posts")
+        .add({
 
             title:title,
-
             image:imageURL,
-
             prompt:prompt,
+            howToUse:howToUse,
 
             createdAt:
-                firebase.firestore.FieldValue.serverTimestamp()
+                firebase.firestore
+                .FieldValue
+                .serverTimestamp()
 
         });
-
 
         message.innerText =
             "✅ Post successfully add हो गया!";
 
+        document.getElementById(
+            "postTitle"
+        ).value = "";
 
-        document.getElementById("postTitle").value = "";
+        document.getElementById(
+            "postPrompt"
+        ).value = "";
 
-        document.getElementById("postPrompt").value = "";
+        document.getElementById(
+            "postHowToUse"
+        ).value = "";
 
-        document.getElementById("postImage").value = "";
+        document.getElementById(
+            "postImage"
+        ).value = "";
 
-        document.getElementById("imagePreview").style.display =
-            "none";
-
+        document.getElementById(
+            "imagePreview"
+        ).style.display = "none";
 
         loadPosts();
 
@@ -471,11 +638,53 @@ async function addPost(){
 
     }
 
-
     button.disabled = false;
 
     button.innerText =
         "➕ Add Post";
+
+}
+
+
+/* CLOUDINARY UPLOAD */
+
+async function uploadImage(file){
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "file",
+        file
+    );
+
+    formData.append(
+        "upload_preset",
+        UPLOAD_PRESET
+    );
+
+    const response =
+        await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+    const result =
+        await response.json();
+
+    if(!response.ok){
+
+        throw new Error(
+            result.error?.message ||
+            "Cloudinary upload failed"
+        );
+
+    }
+
+    return result.secure_url;
 
 }
 
@@ -491,10 +700,11 @@ function loadPosts(){
     .then(function(snapshot){
 
         const container =
-            document.getElementById("adminPosts");
+            document.getElementById(
+                "adminPosts"
+            );
 
         container.innerHTML = "";
-
 
         if(snapshot.empty){
 
@@ -504,46 +714,103 @@ function loadPosts(){
             return;
         }
 
-
         snapshot.forEach(function(doc){
 
             const data =
                 doc.data();
 
-
             const post =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             post.className =
                 "admin-post";
 
-
             post.innerHTML = `
 
+                <button
+                    class="menu-btn"
+                    onclick="toggleMenu(
+                        '${doc.id}'
+                    )">
+                    ⋮
+                </button>
+
+                <div
+                    class="menu"
+                    id="menu-${doc.id}">
+
+                    <button
+                        class="menu-edit"
+                        onclick="editPost(
+                            '${doc.id}'
+                        )">
+                        ✏️ Edit Post
+                    </button>
+
+                    <button
+                        class="menu-delete"
+                        onclick="deletePost(
+                            '${doc.id}'
+                        )">
+                        🗑️ Delete Post
+                    </button>
+
+                </div>
+
                 <strong>
-                    ${escapeHTML(data.title || "Untitled")}
+                    ${escapeHTML(
+                        data.title ||
+                        "Untitled"
+                    )}
                 </strong>
 
                 ${
                     data.image
                     ?
-                    `<img src="${escapeHTML(data.image)}">`
+                    `
+                    <img
+                        src="${escapeHTML(
+                            data.image
+                        )}"
+                        alt="Post"
+                    >
+                    `
                     :
                     ""
                 }
 
                 <p>
-                    ${escapeHTML(data.prompt || "")}
+                    <strong>
+                        ✨ Prompt
+                    </strong>
+                    <br>
+                    ${escapeHTML(
+                        data.prompt ||
+                        ""
+                    )}
                 </p>
 
-                <button
-                    class="delete"
-                    onclick="deletePost('${doc.id}')">
-                    🗑️ Delete Post
-                </button>
+                ${
+                    data.howToUse
+                    ?
+                    `
+                    <p>
+                        <strong>
+                            💡 Prompt कैसे इस्तेमाल करें
+                        </strong>
+                        <br>
+                        ${escapeHTML(
+                            data.howToUse
+                        )}
+                    </p>
+                    `
+                    :
+                    ""
+                }
 
             `;
-
 
             container.appendChild(post);
 
@@ -555,10 +822,295 @@ function loadPosts(){
 
         console.error(error);
 
-        document.getElementById("adminPosts").innerText =
+        document.getElementById(
+            "adminPosts"
+        ).innerText =
             "❌ Posts load नहीं हुए।";
 
     });
+
+}
+
+
+/* 3 DOT MENU */
+
+function toggleMenu(postId){
+
+    document
+        .querySelectorAll(".menu")
+        .forEach(function(menu){
+
+            if(menu.id !== "menu-" + postId){
+
+                menu.classList.remove(
+                    "show"
+                );
+
+            }
+
+        });
+
+    const menu =
+        document.getElementById(
+            "menu-" + postId
+        );
+
+    menu.classList.toggle(
+        "show"
+    );
+
+}
+
+
+/* EDIT POST */
+
+async function editPost(postId){
+
+    editingPostId =
+        postId;
+
+    const doc =
+        await db
+        .collection("Posts")
+        .doc(postId)
+        .get();
+
+    if(!doc.exists){
+
+        alert(
+            "❌ Post नहीं मिला।"
+        );
+
+        return;
+    }
+
+    const data =
+        doc.data();
+
+    document.getElementById(
+        "editTitle"
+    ).value =
+        data.title || "";
+
+    document.getElementById(
+        "editPrompt"
+    ).value =
+        data.prompt || "";
+
+    document.getElementById(
+        "editHowToUse"
+    ).value =
+        data.howToUse || "";
+
+    document.getElementById(
+        "editImage"
+    ).value = "";
+
+    document.getElementById(
+        "editImagePreview"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "editBox"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "editBox"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* EDIT IMAGE PREVIEW */
+
+function previewEditImage(event){
+
+    const file =
+        event.target.files[0];
+
+    const preview =
+        document.getElementById(
+            "editImagePreview"
+        );
+
+    if(!file){
+
+        preview.style.display =
+            "none";
+
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e){
+
+            preview.src =
+                e.target.result;
+
+            preview.style.display =
+                "block";
+
+        };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* SAVE EDIT */
+
+async function saveEdit(){
+
+    if(!editingPostId){
+
+        return;
+    }
+
+    const title =
+        document.getElementById(
+            "editTitle"
+        ).value.trim();
+
+    const prompt =
+        document.getElementById(
+            "editPrompt"
+        ).value.trim();
+
+    const howToUse =
+        document.getElementById(
+            "editHowToUse"
+        ).value.trim();
+
+    const file =
+        document.getElementById(
+            "editImage"
+        ).files[0];
+
+    const button =
+        document.getElementById(
+            "saveEditButton"
+        );
+
+    const message =
+        document.getElementById(
+            "editMessage"
+        );
+
+    if(!title || !prompt){
+
+        message.innerText =
+            "⚠️ Title और Prompt जरूरी हैं।";
+
+        return;
+    }
+
+    button.disabled =
+        true;
+
+    button.innerText =
+        "⏳ Save हो रहा है...";
+
+    try{
+
+        const postRef =
+            db.collection("Posts")
+            .doc(editingPostId);
+
+        const updateData = {
+
+            title:title,
+
+            prompt:prompt,
+
+            howToUse:howToUse
+
+        };
+
+        /* नई फोटो दी गई है */
+
+        if(file){
+
+            button.innerText =
+                "⏳ नई Photo upload हो रही है...";
+
+            updateData.image =
+                await uploadImage(file);
+
+        }
+
+        await postRef.update(
+            updateData
+        );
+
+        message.innerText =
+            "✅ Post successfully update हो गया!";
+
+        editingPostId =
+            null;
+
+        document.getElementById(
+            "editImage"
+        ).value = "";
+
+        document.getElementById(
+            "editImagePreview"
+        ).style.display =
+            "none";
+
+        loadPosts();
+
+        setTimeout(function(){
+
+            document.getElementById(
+                "editBox"
+            ).style.display =
+                "none";
+
+        },800);
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        message.innerText =
+            "❌ Update नहीं हुआ: " +
+            error.message;
+
+    }
+
+    button.disabled =
+        false;
+
+    button.innerText =
+        "💾 Save Changes";
+
+}
+
+
+/* CANCEL EDIT */
+
+function cancelEdit(){
+
+    editingPostId =
+        null;
+
+    document.getElementById(
+        "editBox"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "editMessage"
+    ).innerText = "";
 
 }
 
@@ -572,12 +1124,10 @@ function deletePost(postId){
             "क्या आप इस Post को delete करना चाहते हैं?"
         );
 
-
     if(!confirmDelete){
 
         return;
     }
-
 
     db.collection("Posts")
     .doc(postId)
@@ -585,7 +1135,9 @@ function deletePost(postId){
 
     .then(function(){
 
-        alert("✅ Post delete हो गया!");
+        alert(
+            "✅ Post delete हो गया!"
+        );
 
         loadPosts();
 
@@ -609,7 +1161,9 @@ function deletePost(postId){
 function escapeHTML(text){
 
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     div.textContent =
         text;
@@ -625,16 +1179,29 @@ function logout(){
 
     auth.signOut();
 
-    document.getElementById("loginBox").style.display =
+    document.getElementById(
+        "loginBox"
+    ).style.display =
         "block";
 
-    document.getElementById("adminPanel").style.display =
+    document.getElementById(
+        "adminPanel"
+    ).style.display =
         "none";
 
-    document.getElementById("postsBox").style.display =
+    document.getElementById(
+        "postsBox"
+    ).style.display =
         "none";
 
-    document.getElementById("logoutBox").style.display =
+    document.getElementById(
+        "logoutBox"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "editBox"
+    ).style.display =
         "none";
 
 }
@@ -642,4 +1209,4 @@ function logout(){
 </script>
 
 </body>
-</html>
+    </html>
