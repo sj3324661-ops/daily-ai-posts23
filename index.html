@@ -461,6 +461,9 @@ footer p{
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
+<!-- FIREBASE ANALYTICS -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
+
 
 <script>
 
@@ -494,6 +497,27 @@ firebase.initializeApp(firebaseConfig);
 
 const db =
     firebase.firestore();
+
+/* ANALYTICS */
+let analytics = null;
+
+try {
+
+    analytics =
+        firebase.analytics();
+
+    console.log(
+        "Firebase Analytics started"
+    );
+
+} catch(error) {
+
+    console.warn(
+        "Analytics unavailable:",
+        error
+    );
+
+}
 
 
 let selectedPrompt = "";
@@ -891,4 +915,4 @@ function escapeHTML(text){
 </script>
 
 </body>
-        </html>
+    </html>
