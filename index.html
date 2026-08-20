@@ -189,11 +189,41 @@ nav a.active{
     margin:20px 0 12px;
 }
 
-.detail-prompt{
+
+/* PROMPT */
+
+.detail-prompt-box{
     background:#111827;
     border:1px solid #263244;
     border-radius:15px;
     padding:16px;
+}
+
+.detail-section-title{
+    color:#60a5fa;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.detail-prompt{
+    line-height:1.7;
+    white-space:pre-wrap;
+}
+
+
+/* HOW TO USE */
+
+.how-to-use-box{
+    margin-top:15px;
+    background:#111827;
+    border:1px solid #263244;
+    border-radius:15px;
+    padding:16px;
+}
+
+.how-to-use{
+    color:#d1d5db;
     line-height:1.7;
     white-space:pre-wrap;
 }
@@ -357,11 +387,39 @@ footer p{
         </div>
 
 
-        <div
-            id="detailPrompt"
-            class="detail-prompt">
+        <!-- PROMPT -->
+
+        <div class="detail-prompt-box">
+
+            <div class="detail-section-title">
+                ✨ AI Prompt
+            </div>
+
+            <div
+                id="detailPrompt"
+                class="detail-prompt">
+            </div>
+
         </div>
 
+
+        <!-- HOW TO USE -->
+
+        <div class="how-to-use-box">
+
+            <div class="detail-section-title">
+                💡 Prompt कैसे इस्तेमाल करें
+            </div>
+
+            <div
+                id="detailHowToUse"
+                class="how-to-use">
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
 
         <button
             class="action-btn copy-btn"
@@ -460,7 +518,9 @@ db.collection("Posts")
 .then(function(snapshot){
 
     const container =
-        document.getElementById("postsContainer");
+        document.getElementById(
+            "postsContainer"
+        );
 
 
     container.innerHTML = "";
@@ -494,18 +554,28 @@ db.collection("Posts")
 
 
         const title =
-            data.title || "Untitled Post";
+            data.title ||
+            "Untitled Post";
+
 
         const prompt =
             data.prompt ||
             "Prompt available nahi hai.";
 
+
+        const howToUse =
+            data.howToUse ||
+            "Is prompt ko kisi compatible AI image generator mein paste karke try karein.";
+
+
         const image =
-            data.image || "";
+            data.image ||
+            "";
 
 
         const card =
             document.createElement("div");
+
 
         card.className =
             "post-card";
@@ -553,6 +623,7 @@ db.collection("Posts")
                 openPost(
                     title,
                     prompt,
+                    howToUse,
                     image
                 );
 
@@ -603,6 +674,7 @@ db.collection("Posts")
 function openPost(
     title,
     prompt,
+    howToUse,
     image
 ){
 
@@ -630,12 +702,22 @@ function openPost(
         );
 
 
+    const detailHowToUse =
+        document.getElementById(
+            "detailHowToUse"
+        );
+
+
     detailTitle.innerText =
         title;
 
 
     detailPrompt.innerText =
         prompt;
+
+
+    detailHowToUse.innerText =
+        howToUse;
 
 
     selectedPrompt =
@@ -658,7 +740,9 @@ function openPost(
     }
 
 
-    overlay.classList.add("show");
+    overlay.classList.add(
+        "show"
+    );
 
 
     document.body.style.overflow =
@@ -675,7 +759,9 @@ function closePost(){
         .getElementById(
             "detailOverlay"
         )
-        .classList.remove("show");
+        .classList.remove(
+            "show"
+        );
 
 
     document.body.style.overflow =
@@ -689,7 +775,9 @@ function closePost(){
 function copyDetailPrompt(){
 
     navigator.clipboard
-    .writeText(selectedPrompt)
+    .writeText(
+        selectedPrompt
+    )
 
     .then(function(){
 
