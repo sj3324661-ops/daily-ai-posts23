@@ -18,227 +18,579 @@ body{
     font-family:Arial,sans-serif;
 }
 
+/* HEADER */
+
 header{
     text-align:center;
-    padding:22px 15px;
+    padding:20px 12px;
     background:#111827;
 }
 
 header h1{
     margin:0;
-    font-size:28px;
+    font-size:27px;
 }
 
+
+/* NAVIGATION */
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:7px;
+    padding:13px 8px;
+    background:#0d1420;
+    border-bottom:1px solid #263244;
+}
+
+nav a{
+    padding:8px 12px;
+    border-radius:20px;
+    background:#182235;
+    border:1px solid #2d3b52;
+    color:#dbeafe;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:bold;
+}
+
+nav a.active{
+    background:#4285f4;
+    border-color:#4285f4;
+    color:white;
+}
+
+
+/* POSTS GRID */
+
 .container{
-    max-width:700px;
+    max-width:1000px;
     margin:auto;
     padding:15px;
 }
 
-.post{
+.posts-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+
+/* SMALL POST CARD */
+
+.post-card{
     background:#111827;
-    border-radius:18px;
+    border-radius:15px;
     overflow:hidden;
-    margin-bottom:25px;
+    border:1px solid #202b3d;
+    cursor:pointer;
+    transition:0.2s;
 }
 
-.title{
-    padding:18px;
-    font-size:23px;
-    font-weight:bold;
+.post-card:active{
+    transform:scale(0.97);
 }
 
-.post-image{
+.post-card img{
     width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
     display:block;
 }
 
-.prompt-box{
-    padding:16px;
-}
-
-.prompt{
-    background:#080b12;
-    border-radius:12px;
-    padding:14px;
-    line-height:1.6;
-    white-space:pre-wrap;
-}
-
-.copy-btn,
-.create-btn{
-    width:100%;
-    margin-top:12px;
-    padding:15px;
-    border-radius:12px;
-    font-size:17px;
+.post-card-title{
+    padding:11px;
+    font-size:15px;
     font-weight:bold;
+    line-height:1.35;
 }
 
-.copy-btn{
-    border:0;
-    background:#263244;
-    color:white;
-    cursor:pointer;
-}
 
-.create-btn{
-    border:0;
-    background:#4285f4;
-    color:white;
-    cursor:pointer;
-}
+/* LOADING */
 
 .loading{
     text-align:center;
-    padding:30px;
+    padding:40px 15px;
     font-size:18px;
 }
+
+
+/* ERROR */
 
 .error{
     background:#3b1111;
     padding:15px;
     border-radius:12px;
-    margin-bottom:20px;
+}
+
+
+/* DETAIL OVERLAY */
+
+.detail-overlay{
+    position:fixed;
+    inset:0;
+    background:#080b12;
+    z-index:1000;
+    overflow-y:auto;
+    display:none;
+}
+
+.detail-overlay.show{
+    display:block;
+}
+
+.detail-header{
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    background:#111827;
+    border-bottom:1px solid #263244;
+}
+
+.back-btn{
+    border:0;
+    background:#263244;
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.detail-header span{
+    font-weight:bold;
+    font-size:16px;
+}
+
+.detail-content{
+    max-width:700px;
+    margin:auto;
+    padding:15px;
+}
+
+.detail-image{
+    width:100%;
+    max-height:600px;
+    object-fit:contain;
+    background:#000;
+    border-radius:16px;
+    display:block;
+}
+
+.detail-title{
+    font-size:25px;
+    font-weight:bold;
+    margin:20px 0 12px;
+}
+
+.detail-prompt{
+    background:#111827;
+    border:1px solid #263244;
+    border-radius:15px;
+    padding:16px;
+    line-height:1.7;
+    white-space:pre-wrap;
+}
+
+
+/* ACTION BUTTONS */
+
+.action-btn{
+    width:100%;
+    margin-top:12px;
+    padding:15px;
+    border:0;
+    border-radius:14px;
+    font-size:17px;
+    font-weight:bold;
+    color:white;
+    cursor:pointer;
+}
+
+.copy-btn{
+    background:#1a2536;
+    border:1px solid #3b4b63;
+}
+
+.gemini-btn{
+    background:linear-gradient(135deg,#4285f4,#6366f1);
+}
+
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:28px 15px;
+    margin-top:25px;
+    background:#111827;
+    border-top:1px solid #263244;
+}
+
+footer p{
+    color:#9ca3af;
+    line-height:1.6;
+}
+
+.footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.footer-links a{
+    color:#93c5fd;
+    text-decoration:none;
+    background:#182235;
+    border:1px solid #2d3b52;
+    padding:8px 11px;
+    border-radius:18px;
+    font-size:13px;
+}
+
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .posts-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:16px;
+    }
+
+    .post-card-title{
+        font-size:16px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
+
 <header>
     <h1>✨ Daily AI Posts</h1>
 </header>
 
-<div class="container" id="postsContainer">
 
-    <div class="loading">
-        ⏳ Posts load ho rahe hain...
+<!-- NAVIGATION -->
+
+<nav>
+
+    <a href="index.html" class="active">
+        🏠 Home
+    </a>
+
+    <a href="about.html">
+        ℹ️ About
+    </a>
+
+    <a href="contact.html">
+        📩 Contact
+    </a>
+
+    <a href="privacy.html">
+        🔒 Privacy
+    </a>
+
+    <a href="terms.html">
+        📄 Terms
+    </a>
+
+</nav>
+
+
+<!-- POSTS -->
+
+<div class="container">
+
+    <div id="postsContainer">
+
+        <div class="loading">
+            ⏳ Posts load ho rahe hain...
+        </div>
+
     </div>
 
 </div>
 
 
-<!-- Firebase -->
+<!-- DETAIL PAGE -->
+
+<div class="detail-overlay" id="detailOverlay">
+
+    <div class="detail-header">
+
+        <button
+            class="back-btn"
+            onclick="closePost()">
+            ← Back
+        </button>
+
+        <span>
+            Daily AI Posts
+        </span>
+
+    </div>
+
+
+    <div class="detail-content">
+
+        <img
+            id="detailImage"
+            class="detail-image"
+            alt="AI Post"
+        >
+
+
+        <div
+            id="detailTitle"
+            class="detail-title">
+        </div>
+
+
+        <div
+            id="detailPrompt"
+            class="detail-prompt">
+        </div>
+
+
+        <button
+            class="action-btn copy-btn"
+            onclick="copyDetailPrompt()">
+            📋 Copy Prompt
+        </button>
+
+
+        <button
+            class="action-btn gemini-btn"
+            onclick="openGemini()">
+            ✨ Create with Gemini
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        Daily AI Posts — AI creative ideas aur prompts.
+    </p>
+
+    <div class="footer-links">
+
+        <a href="about.html">ℹ️ About</a>
+
+        <a href="contact.html">📩 Contact</a>
+
+        <a href="privacy.html">🔒 Privacy</a>
+
+        <a href="terms.html">📄 Terms</a>
+
+    </div>
+
+    <p>
+        © 2026 Daily AI Posts
+    </p>
+
+</footer>
+
+
+<!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 
 <script>
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD5Fr_04TVEj5CqEiisM_-ThMQEJ9R1LM4",
-    authDomain: "daily-ai-posts.firebaseapp.com",
-    projectId: "daily-ai-posts",
-    storageBucket: "daily-ai-posts.firebasestorage.app",
-    messagingSenderId: "223242023213",
-    appId: "1:223242023213:web:e8e67fd7e587fe763323a4",
-    measurementId: "G-7K1WFGR67Y"
+
+    apiKey:
+        "AIzaSyD5Fr_04TVEj5CqEiisM_-ThMQEJ9R1LM4",
+
+    authDomain:
+        "daily-ai-posts.firebaseapp.com",
+
+    projectId:
+        "daily-ai-posts",
+
+    storageBucket:
+        "daily-ai-posts.firebasestorage.app",
+
+    messagingSenderId:
+        "223242023213",
+
+    appId:
+        "1:223242023213:web:e8e67fd7e587fe763323a4",
+
+    measurementId:
+        "G-7K1WFGR67Y"
+
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+const db =
+    firebase.firestore();
 
 
-/* Posts Firebase se load karna */
+let selectedPrompt = "";
 
-db.collection("Posts").get()
+
+/* LOAD POSTS */
+
+db.collection("Posts")
+.get()
+
 .then(function(snapshot){
 
     const container =
         document.getElementById("postsContainer");
 
+
     container.innerHTML = "";
+
 
     if(snapshot.empty){
 
         container.innerHTML = `
+
             <div class="loading">
                 📭 Abhi koi post nahi hai.
             </div>
+
         `;
 
         return;
     }
 
 
+    const grid =
+        document.createElement("div");
+
+    grid.className =
+        "posts-grid";
+
+
     snapshot.forEach(function(doc){
 
-        const data = doc.data();
+        const data =
+            doc.data();
+
 
         const title =
             data.title || "Untitled Post";
 
         const prompt =
-            data.prompt || "Prompt available nahi hai.";
+            data.prompt ||
+            "Prompt available nahi hai.";
 
         const image =
             data.image || "";
 
 
-        const post = document.createElement("div");
+        const card =
+            document.createElement("div");
 
-        post.className = "post";
+        card.className =
+            "post-card";
 
 
-        post.innerHTML = `
-
-            <div class="title">
-                ${escapeHTML(title)}
-            </div>
+        card.innerHTML = `
 
             ${
                 image
                 ?
                 `
                 <img
-                    class="post-image"
                     src="${escapeHTML(image)}"
                     alt="AI Post"
                     onerror="this.style.display='none'"
                 >
                 `
                 :
-                ""
+                `
+                <div
+                    style="
+                    height:180px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#080b12;
+                    font-size:35px;">
+                    🤖
+                </div>
+                `
             }
 
-            <div class="prompt-box">
 
-                <div class="prompt">
-                    ${escapeHTML(prompt)}
-                </div>
-
-                <button
-                    class="copy-btn"
-                    onclick="copyPrompt(this)">
-                    📋 Copy Prompt
-                </button>
-
-                <button
-                    class="create-btn"
-                    onclick="openGemini()">
-                    ✨ Create with Gemini
-                </button>
-
+            <div class="post-card-title">
+                ${escapeHTML(title)}
             </div>
+
         `;
 
 
-        container.appendChild(post);
+        card.addEventListener(
+            "click",
+            function(){
+
+                openPost(
+                    title,
+                    prompt,
+                    image
+                );
+
+            }
+        );
+
+
+        grid.appendChild(card);
 
     });
 
+
+    container.appendChild(grid);
+
 })
+
+
 .catch(function(error){
 
-    console.error("Firebase Error:", error);
+    console.error(
+        "Firebase Error:",
+        error
+    );
 
-    document.getElementById("postsContainer").innerHTML = `
+
+    document.getElementById(
+        "postsContainer"
+    ).innerHTML = `
 
         <div class="error">
+
             ❌ Posts load nahi ho paaye.
+
             <br><br>
-            Firebase connection ya Firestore Rules check karein.
+
+            Firebase connection ya
+            Firestore Rules check karein.
+
         </div>
 
     `;
@@ -246,47 +598,119 @@ db.collection("Posts").get()
 });
 
 
-/* HTML ko safe rakhne ke liye */
+/* OPEN POST */
 
-function escapeHTML(text){
+function openPost(
+    title,
+    prompt,
+    image
+){
 
-    const div = document.createElement("div");
+    const overlay =
+        document.getElementById(
+            "detailOverlay"
+        );
 
-    div.textContent = text;
 
-    return div.innerHTML;
+    const detailImage =
+        document.getElementById(
+            "detailImage"
+        );
+
+
+    const detailTitle =
+        document.getElementById(
+            "detailTitle"
+        );
+
+
+    const detailPrompt =
+        document.getElementById(
+            "detailPrompt"
+        );
+
+
+    detailTitle.innerText =
+        title;
+
+
+    detailPrompt.innerText =
+        prompt;
+
+
+    selectedPrompt =
+        prompt;
+
+
+    if(image){
+
+        detailImage.src =
+            image;
+
+        detailImage.style.display =
+            "block";
+
+    }else{
+
+        detailImage.style.display =
+            "none";
+
+    }
+
+
+    overlay.classList.add("show");
+
+
+    document.body.style.overflow =
+        "hidden";
+
 }
 
 
-/* Copy Prompt */
+/* CLOSE POST */
 
-function copyPrompt(button){
+function closePost(){
 
-    const promptBox =
-        button.parentElement.querySelector(".prompt");
+    document
+        .getElementById(
+            "detailOverlay"
+        )
+        .classList.remove("show");
 
-    const text =
-        promptBox.innerText.trim();
+
+    document.body.style.overflow =
+        "auto";
+
+}
 
 
-    navigator.clipboard.writeText(text)
+/* COPY PROMPT */
+
+function copyDetailPrompt(){
+
+    navigator.clipboard
+    .writeText(selectedPrompt)
 
     .then(function(){
 
-        alert("✅ Prompt copied!");
+        alert(
+            "✅ Prompt copied!"
+        );
 
     })
 
     .catch(function(){
 
-        alert("❌ Prompt copy nahi hua.");
+        alert(
+            "❌ Prompt copy nahi hua."
+        );
 
     });
 
 }
 
 
-/* Gemini */
+/* GEMINI */
 
 function openGemini(){
 
@@ -295,7 +719,24 @@ function openGemini(){
 
 }
 
+
+/* SAFE HTML */
+
+function escapeHTML(text){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+
+}
+
 </script>
 
 </body>
-</html>
+    </html>
