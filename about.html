@@ -19,14 +19,40 @@ body{
 }
 
 header{
-    padding:20px;
-    text-align:center;
     background:#111827;
+    padding:22px 15px;
+    text-align:center;
+    border-bottom:1px solid #263244;
 }
 
 header h1{
     margin:0;
     font-size:28px;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:14px 10px;
+    background:#0d1420;
+}
+
+nav a{
+    color:#dbeafe;
+    background:#182235;
+    border:1px solid #2d3b52;
+    text-decoration:none;
+    padding:9px 13px;
+    border-radius:20px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+nav a.active{
+    background:#4285f4;
+    border-color:#4285f4;
 }
 
 .container{
@@ -39,33 +65,47 @@ header h1{
     background:#111827;
     padding:25px;
     border-radius:18px;
-    margin-bottom:20px;
+    border:1px solid #202b3d;
+    margin-bottom:18px;
 }
 
 h2{
     color:#60a5fa;
+    margin-top:0;
 }
 
-p{
-    line-height:1.7;
+p,li{
     color:#d1d5db;
+    line-height:1.7;
 }
 
-nav{
-    text-align:center;
-    padding:15px;
+.feature{
+    background:#080b12;
+    border:1px solid #202b3d;
+    border-radius:14px;
+    padding:16px;
+    margin-top:12px;
 }
 
-nav a{
-    color:#60a5fa;
-    text-decoration:none;
-    margin:0 8px;
+.feature strong{
+    display:block;
+    margin-bottom:6px;
+    font-size:17px;
 }
 
 footer{
     text-align:center;
-    padding:25px;
+    padding:28px 15px;
     color:#9ca3af;
+    background:#111827;
+    margin-top:25px;
+    border-top:1px solid #263244;
+}
+
+footer a{
+    color:#60a5fa;
+    text-decoration:none;
+    margin:0 6px;
 }
 </style>
 </head>
@@ -73,47 +113,51 @@ footer{
 <body>
 
 <header>
-    <h1>🤖 Daily AI Posts</h1>
+    <h1>ℹ️ About Daily AI Posts</h1>
 </header>
 
+
 <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+
+    <a href="index.html">
+        🏠 Home
+    </a>
+
+    <a href="about.html" class="active">
+        ℹ️ About
+    </a>
+
+    <a href="contact.html">
+        📩 Contact
+    </a>
+
+    <a href="privacy.html">
+        🔒 Privacy
+    </a>
+
+    <a href="terms.html">
+        📄 Terms
+    </a>
+
 </nav>
+
 
 <div class="container">
 
     <div class="card">
 
-        <h2>हमारे बारे में</h2>
+        <h2>✨ Daily AI Posts क्या है?</h2>
 
         <p>
-            Daily AI Posts एक ऐसी website है जहाँ
-            AI से जुड़े creative ideas, photo prompts
-            और useful content शेयर किए जाते हैं।
+            Daily AI Posts एक creative website है जहाँ
+            AI से जुड़े creative ideas, prompts और images
+            एक आसान और व्यवस्थित तरीके से उपलब्ध कराए जाते हैं।
         </p>
 
         <p>
-            हमारा उद्देश्य AI और creative photo editing
-            से जुड़े आसान और उपयोगी ideas को एक जगह
-            उपलब्ध कराना है।
-        </p>
-
-    </div>
-
-
-    <div class="card">
-
-        <h2>हम क्या शेयर करते हैं?</h2>
-
-        <p>
-            यहाँ आपको AI photo prompts, creative ideas
-            और अलग-अलग तरह के AI content देखने को मिलेंगे।
-        </p>
-
-        <p>
-            हम कोशिश करते हैं कि website पर प्रकाशित
-            content उपयोगी और आसानी से समझ आने वाला हो।
+            हमारा उद्देश्य AI creativity को आसान बनाना है,
+            ताकि users नए ideas देख सकें और अपने creative
+            projects के लिए inspiration प्राप्त कर सकें।
         </p>
 
     </div>
@@ -121,21 +165,96 @@ footer{
 
     <div class="card">
 
-        <h2>हमारा उद्देश्य</h2>
+        <h2>🚀 यहाँ क्या मिलेगा?</h2>
+
+        <div class="feature">
+            <strong>🖼️ AI Creative Posts</strong>
+            <p>
+                अलग-अलग प्रकार के AI creative posts और
+                visual ideas देखें।
+            </p>
+        </div>
+
+        <div class="feature">
+            <strong>✍️ AI Prompts</strong>
+            <p>
+                Posts में दिए गए prompts को copy करके
+                अपने AI tools में इस्तेमाल कर सकते हैं।
+            </p>
+        </div>
+
+        <div class="feature">
+            <strong>📋 आसान Copy Feature</strong>
+            <p>
+                Prompt को एक tap में copy करने की सुविधा।
+            </p>
+        </div>
+
+        <div class="feature">
+            <strong>✨ Gemini Integration</strong>
+            <p>
+                Prompt को Gemini में खोलकर creative
+                experiments शुरू कर सकते हैं।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🎯 हमारा उद्देश्य</h2>
 
         <p>
-            AI technology को आसान तरीके से समझना और
-            creative लोगों को नए ideas देना हमारा मुख्य
-            उद्देश्य है।
+            हम एक simple और useful platform बनाना चाहते हैं
+            जहाँ AI creativity से जुड़े नए ideas आसानी से
+            खोजे जा सकें।
+        </p>
+
+        <p>
+            Website को समय के साथ नए posts और features
+            के साथ बेहतर बनाया जा सकता है।
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📩 हमसे संपर्क करें</h2>
+
+        <p>
+            Website से संबंधित सवाल, सुझाव या समस्या के लिए
+            हमारी Contact page पर जाएँ।
+        </p>
+
+        <p>
+            <a
+                href="contact.html"
+                style="color:#60a5fa;">
+                📩 Contact Us →
+            </a>
         </p>
 
     </div>
 
 </div>
 
+
 <footer>
-    © 2026 Daily AI Posts
+
+    <p>
+        © 2026 Daily AI Posts
+    </p>
+
+    <p>
+        <a href="index.html">Home</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="privacy.html">Privacy</a> |
+        <a href="terms.html">Terms</a>
+    </p>
+
 </footer>
 
 </body>
-  </html>
+    </html>
