@@ -18,8 +18,6 @@ body{
     font-family:Arial,sans-serif;
 }
 
-/* HEADER */
-
 header{
     text-align:center;
     padding:20px 12px;
@@ -30,9 +28,6 @@ header h1{
     margin:0;
     font-size:27px;
 }
-
-
-/* NAVIGATION */
 
 nav{
     display:flex;
@@ -62,7 +57,39 @@ nav a.active{
 }
 
 
-/* POSTS GRID */
+/* SEARCH */
+
+.search-box{
+    max-width:700px;
+    margin:18px auto 5px;
+    padding:0 15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px 18px;
+    border:1px solid #334155;
+    border-radius:15px;
+    outline:none;
+    background:#111827;
+    color:white;
+    font-size:16px;
+}
+
+.search-box input::placeholder{
+    color:#9ca3af;
+}
+
+.search-info{
+    max-width:700px;
+    margin:10px auto;
+    padding:0 15px;
+    color:#9ca3af;
+    font-size:14px;
+}
+
+
+/* POSTS */
 
 .container{
     max-width:1000px;
@@ -75,9 +102,6 @@ nav a.active{
     grid-template-columns:repeat(2,1fr);
     gap:12px;
 }
-
-
-/* SMALL POST CARD */
 
 .post-card{
     background:#111827;
@@ -106,17 +130,11 @@ nav a.active{
     line-height:1.35;
 }
 
-
-/* LOADING */
-
 .loading{
     text-align:center;
     padding:40px 15px;
     font-size:18px;
 }
-
-
-/* ERROR */
 
 .error{
     background:#3b1111;
@@ -125,7 +143,7 @@ nav a.active{
 }
 
 
-/* DETAIL OVERLAY */
+/* DETAIL */
 
 .detail-overlay{
     position:fixed;
@@ -189,47 +207,24 @@ nav a.active{
     margin:20px 0 12px;
 }
 
-
-/* PROMPT */
-
-.detail-prompt-box{
+.detail-prompt{
     background:#111827;
     border:1px solid #263244;
     border-radius:15px;
     padding:16px;
-}
-
-.detail-section-title{
-    color:#60a5fa;
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.detail-prompt{
     line-height:1.7;
     white-space:pre-wrap;
 }
 
-
-/* HOW TO USE */
-
-.how-to-use-box{
+.detail-howto{
     margin-top:15px;
     background:#111827;
     border:1px solid #263244;
     border-radius:15px;
     padding:16px;
-}
-
-.how-to-use{
-    color:#d1d5db;
     line-height:1.7;
     white-space:pre-wrap;
 }
-
-
-/* ACTION BUTTONS */
 
 .action-btn{
     width:100%;
@@ -298,20 +293,16 @@ footer p{
     .post-card-title{
         font-size:16px;
     }
-
 }
 </style>
 </head>
 
 <body>
 
-
 <header>
     <h1>✨ Daily AI Posts</h1>
 </header>
 
-
-<!-- NAVIGATION -->
 
 <nav>
 
@@ -338,6 +329,25 @@ footer p{
 </nav>
 
 
+<!-- SEARCH -->
+
+<div class="search-box">
+
+    <input
+        type="search"
+        id="searchInput"
+        placeholder="🔍 Post का नाम खोजें..."
+        autocomplete="off"
+    >
+
+</div>
+
+<div
+    class="search-info"
+    id="searchInfo">
+</div>
+
+
 <!-- POSTS -->
 
 <div class="container">
@@ -345,7 +355,7 @@ footer p{
     <div id="postsContainer">
 
         <div class="loading">
-            ⏳ Posts load ho rahe hain...
+            ⏳ Posts load हो रहे हैं...
         </div>
 
     </div>
@@ -353,9 +363,11 @@ footer p{
 </div>
 
 
-<!-- DETAIL PAGE -->
+<!-- DETAIL -->
 
-<div class="detail-overlay" id="detailOverlay">
+<div
+    class="detail-overlay"
+    id="detailOverlay">
 
     <div class="detail-header">
 
@@ -387,39 +399,18 @@ footer p{
         </div>
 
 
-        <!-- PROMPT -->
-
-        <div class="detail-prompt-box">
-
-            <div class="detail-section-title">
-                ✨ AI Prompt
-            </div>
-
-            <div
-                id="detailPrompt"
-                class="detail-prompt">
-            </div>
-
+        <div
+            id="detailPrompt"
+            class="detail-prompt">
         </div>
 
 
-        <!-- HOW TO USE -->
-
-        <div class="how-to-use-box">
-
-            <div class="detail-section-title">
-                💡 Prompt कैसे इस्तेमाल करें
-            </div>
-
-            <div
-                id="detailHowToUse"
-                class="how-to-use">
-            </div>
-
+        <div
+            id="detailHowToUse"
+            class="detail-howto"
+            style="display:none;">
         </div>
 
-
-        <!-- BUTTONS -->
 
         <button
             class="action-btn copy-btn"
@@ -438,8 +429,6 @@ footer p{
 
 </div>
 
-
-<!-- FOOTER -->
 
 <footer>
 
@@ -509,6 +498,8 @@ const db =
 
 let selectedPrompt = "";
 
+let allPosts = [];
+
 
 /* LOAD POSTS */
 
@@ -517,126 +508,35 @@ db.collection("Posts")
 
 .then(function(snapshot){
 
-    const container =
-        document.getElementById(
-            "postsContainer"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if(snapshot.empty){
-
-        container.innerHTML = `
-
-            <div class="loading">
-                📭 Abhi koi post nahi hai.
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    const grid =
-        document.createElement("div");
-
-    grid.className =
-        "posts-grid";
-
+    allPosts = [];
 
     snapshot.forEach(function(doc){
 
         const data =
             doc.data();
 
+        allPosts.push({
 
-        const title =
-            data.title ||
-            "Untitled Post";
+            id:doc.id,
 
+            title:data.title || "Untitled Post",
 
-        const prompt =
-            data.prompt ||
-            "Prompt available nahi hai.";
+            prompt:
+                data.prompt ||
+                "Prompt available nahi hai.",
 
+            howToUse:
+                data.howToUse || "",
 
-        const howToUse =
-            data.howToUse ||
-            "Is prompt ko kisi compatible AI image generator mein paste karke try karein.";
+            image:
+                data.image || ""
 
-
-        const image =
-            data.image ||
-            "";
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "post-card";
-
-
-        card.innerHTML = `
-
-            ${
-                image
-                ?
-                `
-                <img
-                    src="${escapeHTML(image)}"
-                    alt="AI Post"
-                    onerror="this.style.display='none'"
-                >
-                `
-                :
-                `
-                <div
-                    style="
-                    height:180px;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    background:#080b12;
-                    font-size:35px;">
-                    🤖
-                </div>
-                `
-            }
-
-
-            <div class="post-card-title">
-                ${escapeHTML(title)}
-            </div>
-
-        `;
-
-
-        card.addEventListener(
-            "click",
-            function(){
-
-                openPost(
-                    title,
-                    prompt,
-                    howToUse,
-                    image
-                );
-
-            }
-        );
-
-
-        grid.appendChild(card);
+        });
 
     });
 
 
-    container.appendChild(grid);
+    renderPosts(allPosts);
 
 })
 
@@ -667,6 +567,163 @@ db.collection("Posts")
     `;
 
 });
+
+
+/* RENDER POSTS */
+
+function renderPosts(posts){
+
+    const container =
+        document.getElementById(
+            "postsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if(posts.length === 0){
+
+        container.innerHTML = `
+
+            <div class="loading">
+                📭 कोई matching Post नहीं मिला।
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const grid =
+        document.createElement("div");
+
+    grid.className =
+        "posts-grid";
+
+
+    posts.forEach(function(post){
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "post-card";
+
+
+        card.innerHTML = `
+
+            ${
+                post.image
+                ?
+                `
+                <img
+                    src="${escapeHTML(post.image)}"
+                    alt="AI Post"
+                    onerror="this.style.display='none'"
+                >
+                `
+                :
+                `
+                <div
+                    style="
+                    height:180px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#080b12;
+                    font-size:35px;">
+                    🤖
+                </div>
+                `
+            }
+
+            <div class="post-card-title">
+                ${escapeHTML(post.title)}
+            </div>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            function(){
+
+                openPost(
+                    post.title,
+                    post.prompt,
+                    post.howToUse,
+                    post.image
+                );
+
+            }
+        );
+
+
+        grid.appendChild(card);
+
+    });
+
+
+    container.appendChild(grid);
+
+}
+
+
+/* SEARCH */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    function(){
+
+        const searchText =
+            this.value
+            .trim()
+            .toLowerCase();
+
+
+        if(!searchText){
+
+            document.getElementById(
+                "searchInfo"
+            ).innerText = "";
+
+            renderPosts(allPosts);
+
+            return;
+        }
+
+
+        const filteredPosts =
+            allPosts.filter(
+                function(post){
+
+                    return (
+
+                        post.title
+                        .toLowerCase()
+                        .includes(searchText)
+
+                    );
+
+                }
+            );
+
+
+        document.getElementById(
+            "searchInfo"
+        ).innerText =
+            filteredPosts.length +
+            " Post मिले।";
+
+
+        renderPosts(filteredPosts);
+
+    }
+);
 
 
 /* OPEN POST */
@@ -716,12 +773,25 @@ function openPost(
         prompt;
 
 
-    detailHowToUse.innerText =
-        howToUse;
-
-
     selectedPrompt =
         prompt;
+
+
+    if(howToUse){
+
+        detailHowToUse.innerText =
+            "💡 Prompt कैसे इस्तेमाल करें\n\n" +
+            howToUse;
+
+        detailHowToUse.style.display =
+            "block";
+
+    }else{
+
+        detailHowToUse.style.display =
+            "none";
+
+    }
 
 
     if(image){
@@ -740,9 +810,7 @@ function openPost(
     }
 
 
-    overlay.classList.add(
-        "show"
-    );
+    overlay.classList.add("show");
 
 
     document.body.style.overflow =
@@ -751,7 +819,7 @@ function openPost(
 }
 
 
-/* CLOSE POST */
+/* CLOSE */
 
 function closePost(){
 
@@ -759,9 +827,7 @@ function closePost(){
         .getElementById(
             "detailOverlay"
         )
-        .classList.remove(
-            "show"
-        );
+        .classList.remove("show");
 
 
     document.body.style.overflow =
@@ -770,14 +836,12 @@ function closePost(){
 }
 
 
-/* COPY PROMPT */
+/* COPY */
 
 function copyDetailPrompt(){
 
     navigator.clipboard
-    .writeText(
-        selectedPrompt
-    )
+    .writeText(selectedPrompt)
 
     .then(function(){
 
