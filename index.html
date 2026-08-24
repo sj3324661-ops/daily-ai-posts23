@@ -6,6 +6,9 @@
 
 <title>Daily AI Posts — AI Creative Ideas, Prompts & Latest AI Posts</title>
 
+<!-- GOOGLE SEARCH CONSOLE VERIFICATION -->
+<meta name="google-site-verification" content="qZdzzRlyQWLBJ15OAbgA3B5bkJ-EphoyNm4-E4wK9Tk">
+
 <meta name="description"
 content="Daily AI Posts पर AI creative ideas, AI image prompts और latest AI posts देखें। नए AI ideas और prompts एक ही जगह पाएं।">
 
@@ -78,9 +81,6 @@ nav a.active{
     color:white;
 }
 
-
-/* SEARCH */
-
 .search-box{
     max-width:700px;
     margin:18px auto 5px;
@@ -109,9 +109,6 @@ nav a.active{
     color:#9ca3af;
     font-size:14px;
 }
-
-
-/* POSTS */
 
 .container{
     max-width:1000px;
@@ -163,9 +160,6 @@ nav a.active{
     padding:15px;
     border-radius:12px;
 }
-
-
-/* DETAIL */
 
 .detail-overlay{
     position:fixed;
@@ -269,9 +263,6 @@ nav a.active{
     background:linear-gradient(135deg,#4285f4,#6366f1);
 }
 
-
-/* FOOTER */
-
 footer{
     text-align:center;
     padding:28px 15px;
@@ -302,9 +293,6 @@ footer p{
     font-size:13px;
 }
 
-
-/* DESKTOP */
-
 @media(min-width:700px){
 
     .posts-grid{
@@ -324,7 +312,6 @@ footer p{
 <header>
     <h1>✨ Daily AI Posts</h1>
 </header>
-
 
 <nav>
 
@@ -350,9 +337,6 @@ footer p{
 
 </nav>
 
-
-<!-- SEARCH -->
-
 <div class="search-box">
 
     <input
@@ -369,9 +353,6 @@ footer p{
     id="searchInfo">
 </div>
 
-
-<!-- POSTS -->
-
 <div class="container">
 
     <div id="postsContainer">
@@ -383,9 +364,6 @@ footer p{
     </div>
 
 </div>
-
-
-<!-- DETAIL -->
 
 <div
     class="detail-overlay"
@@ -405,7 +383,6 @@ footer p{
 
     </div>
 
-
     <div class="detail-content">
 
         <img
@@ -414,18 +391,15 @@ footer p{
             alt="AI Post"
         >
 
-
         <div
             id="detailTitle"
             class="detail-title">
         </div>
 
-
         <div
             id="detailPrompt"
             class="detail-prompt">
         </div>
-
 
         <div
             id="detailHowToUse"
@@ -433,13 +407,11 @@ footer p{
             style="display:none;">
         </div>
 
-
         <button
             class="action-btn copy-btn"
             onclick="copyDetailPrompt()">
             📋 Copy Prompt
         </button>
-
 
         <button
             class="action-btn gemini-btn"
@@ -450,7 +422,6 @@ footer p{
     </div>
 
 </div>
-
 
 <footer>
 
@@ -476,17 +447,11 @@ footer p{
 
 </footer>
 
-
-<!-- FIREBASE -->
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-<!-- FIREBASE ANALYTICS -->
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
-
 
 <script>
 
@@ -515,14 +480,10 @@ const firebaseConfig = {
 
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
 const db =
     firebase.firestore();
-
-
-/* ANALYTICS */
 
 let analytics = null;
 
@@ -544,13 +505,9 @@ try {
 
 }
 
-
 let selectedPrompt = "";
 
 let allPosts = [];
-
-
-/* LOAD POSTS */
 
 db.collection("Posts")
 .get()
@@ -584,11 +541,9 @@ db.collection("Posts")
 
     });
 
-
     renderPosts(allPosts);
 
 })
-
 
 .catch(function(error){
 
@@ -596,7 +551,6 @@ db.collection("Posts")
         "Firebase Error:",
         error
     );
-
 
     document.getElementById(
         "postsContainer"
@@ -617,9 +571,6 @@ db.collection("Posts")
 
 });
 
-
-/* RENDER POSTS */
-
 function renderPosts(posts){
 
     const container =
@@ -627,9 +578,7 @@ function renderPosts(posts){
             "postsContainer"
         );
 
-
     container.innerHTML = "";
-
 
     if(posts.length === 0){
 
@@ -644,13 +593,11 @@ function renderPosts(posts){
         return;
     }
 
-
     const grid =
         document.createElement("div");
 
     grid.className =
         "posts-grid";
-
 
     posts.forEach(function(post){
 
@@ -659,7 +606,6 @@ function renderPosts(posts){
 
         card.className =
             "post-card";
-
 
         card.innerHTML = `
 
@@ -694,7 +640,6 @@ function renderPosts(posts){
 
         `;
 
-
         card.addEventListener(
             "click",
             function(){
@@ -709,18 +654,13 @@ function renderPosts(posts){
             }
         );
 
-
         grid.appendChild(card);
 
     });
 
-
     container.appendChild(grid);
 
 }
-
-
-/* SEARCH */
 
 document
 .getElementById("searchInput")
@@ -733,7 +673,6 @@ document
             .trim()
             .toLowerCase();
 
-
         if(!searchText){
 
             document.getElementById(
@@ -744,7 +683,6 @@ document
 
             return;
         }
-
 
         const filteredPosts =
             allPosts.filter(
@@ -761,21 +699,16 @@ document
                 }
             );
 
-
         document.getElementById(
             "searchInfo"
         ).innerText =
             filteredPosts.length +
             " Post मिले।";
 
-
         renderPosts(filteredPosts);
 
     }
 );
-
-
-/* OPEN POST */
 
 function openPost(
     title,
@@ -789,42 +722,34 @@ function openPost(
             "detailOverlay"
         );
 
-
     const detailImage =
         document.getElementById(
             "detailImage"
         );
-
 
     const detailTitle =
         document.getElementById(
             "detailTitle"
         );
 
-
     const detailPrompt =
         document.getElementById(
             "detailPrompt"
         );
-
 
     const detailHowToUse =
         document.getElementById(
             "detailHowToUse"
         );
 
-
     detailTitle.innerText =
         title;
-
 
     detailPrompt.innerText =
         prompt;
 
-
     selectedPrompt =
         prompt;
-
 
     if(howToUse){
 
@@ -842,7 +767,6 @@ function openPost(
 
     }
 
-
     if(image){
 
         detailImage.src =
@@ -858,17 +782,12 @@ function openPost(
 
     }
 
-
     overlay.classList.add("show");
-
 
     document.body.style.overflow =
         "hidden";
 
 }
-
-
-/* CLOSE */
 
 function closePost(){
 
@@ -878,14 +797,10 @@ function closePost(){
         )
         .classList.remove("show");
 
-
     document.body.style.overflow =
         "auto";
 
 }
-
-
-/* COPY */
 
 function copyDetailPrompt(){
 
@@ -910,18 +825,12 @@ function copyDetailPrompt(){
 
 }
 
-
-/* GEMINI */
-
 function openGemini(){
 
     window.location.href =
         "https://gemini.google.com/app?hl=en-IN";
 
 }
-
-
-/* SAFE HTML */
 
 function escapeHTML(text){
 
