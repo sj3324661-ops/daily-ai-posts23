@@ -6,7 +6,6 @@
 
 <title>Daily AI Posts — AI Creative Ideas, Prompts & Latest AI Posts</title>
 
-<!-- GOOGLE SEARCH CONSOLE VERIFICATION -->
 <meta name="google-site-verification" content="qZdzzRlyQWLBJ15OAbgA3B5bkJ-EphoyNm4-E4wK9Tk">
 
 <meta name="description"
@@ -32,6 +31,7 @@ content="AI creative ideas, image prompts और latest AI posts एक ही �
 content="https://sj3324661-ops.github.io/daily-ai-posts23/">
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -232,16 +232,6 @@ nav a.active{
     white-space:pre-wrap;
 }
 
-.detail-howto{
-    margin-top:15px;
-    background:#111827;
-    border:1px solid #263244;
-    border-radius:15px;
-    padding:16px;
-    line-height:1.7;
-    white-space:pre-wrap;
-}
-
 .action-btn{
     width:100%;
     margin-top:12px;
@@ -257,10 +247,6 @@ nav a.active{
 .copy-btn{
     background:#1a2536;
     border:1px solid #3b4b63;
-}
-
-.gemini-btn{
-    background:linear-gradient(135deg,#4285f4,#6366f1);
 }
 
 footer{
@@ -304,6 +290,7 @@ footer p{
         font-size:16px;
     }
 }
+
 </style>
 </head>
 
@@ -401,22 +388,12 @@ footer p{
             class="detail-prompt">
         </div>
 
-        <div
-            id="detailHowToUse"
-            class="detail-howto"
-            style="display:none;">
-        </div>
+        <!-- सिर्फ Copy Prompt बटन -->
 
         <button
             class="action-btn copy-btn"
             onclick="copyDetailPrompt()">
             📋 Copy Prompt
-        </button>
-
-        <button
-            class="action-btn gemini-btn"
-            onclick="openGemini()">
-            ✨ Create with Gemini
         </button>
 
     </div>
@@ -531,9 +508,6 @@ db.collection("Posts")
                 data.prompt ||
                 "Prompt available nahi hai.",
 
-            howToUse:
-                data.howToUse || "",
-
             image:
                 data.image || ""
 
@@ -647,7 +621,6 @@ function renderPosts(posts){
                 openPost(
                     post.title,
                     post.prompt,
-                    post.howToUse,
                     post.image
                 );
 
@@ -713,7 +686,6 @@ document
 function openPost(
     title,
     prompt,
-    howToUse,
     image
 ){
 
@@ -737,11 +709,6 @@ function openPost(
             "detailPrompt"
         );
 
-    const detailHowToUse =
-        document.getElementById(
-            "detailHowToUse"
-        );
-
     detailTitle.innerText =
         title;
 
@@ -750,22 +717,6 @@ function openPost(
 
     selectedPrompt =
         prompt;
-
-    if(howToUse){
-
-        detailHowToUse.innerText =
-            "💡 Prompt कैसे इस्तेमाल करें\n\n" +
-            howToUse;
-
-        detailHowToUse.style.display =
-            "block";
-
-    }else{
-
-        detailHowToUse.style.display =
-            "none";
-
-    }
 
     if(image){
 
@@ -802,6 +753,11 @@ function closePost(){
 
 }
 
+
+/* =========================
+   COPY PROMPT
+   ========================= */
+
 function copyDetailPrompt(){
 
     navigator.clipboard
@@ -825,12 +781,10 @@ function copyDetailPrompt(){
 
 }
 
-function openGemini(){
 
-    window.location.href =
-        "https://gemini.google.com/app?hl=en-IN";
-
-}
+/* =========================
+   ESCAPE HTML
+   ========================= */
 
 function escapeHTML(text){
 
